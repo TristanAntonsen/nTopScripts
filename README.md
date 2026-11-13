@@ -16,8 +16,7 @@ Helpers for nTop's Python Console. This folder is on the console's import path.
 ## Summary
 
 ```python
-utils.summary(r"C:\path\part.ntop", restore=True)  # summarize a file, then reopen the current notebook
-utils.summary(md=r"C:\temp\blocks.md")             # also save as Markdown
+utils.summary(md=r"C:\temp\blocks.md")   # also save as Markdown
 ```
 
 After editing the code, run `utils.reload()`. No need to re-import.

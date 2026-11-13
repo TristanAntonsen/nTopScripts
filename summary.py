@@ -1,16 +1,12 @@
 """Block summary of an nTop notebook: sections, unused top-level blocks, and a
 histogram of block counts by function name.
 
-    >>> summary()                                     # the open notebook
-    >>> summary(r"C:\\path\\part.ntop", restore=True)  # a file, then reopen
-    >>> summary(md=r"C:\\temp\\blocks.md")             # also save as Markdown
-
-A path replaces the open notebook; it's backed up to %TEMP%\\ntop-blocks first.
+    >>> summary()                           # the open notebook
+    >>> summary(md=r"C:\\temp\\blocks.md")   # also save as Markdown
 """
 
 import os
 import sys
-import tempfile
 import time
 
 
@@ -132,44 +128,21 @@ def _write_md(path, title, body, unused):
         f.write(text)
 
 
-def summary(path=None, restore=False, md=None, title=None, width=40, quiet=False,
-                  notebook=None):
-    """Print a block-count histogram for the open notebook, or for the .ntop at `path`.
-    md: also write it to this .md file. title: the heading name (default: the .ntop file
-    name, else the .md file name)."""
+def summary(md=None, title=None, width=40, quiet=False, notebook=None):
+    """Print a block-count histogram for the open notebook.
+    md: also write it to this .md file. title: the heading name (default: the .md
+    file name, else 'Open notebook')."""
     nb = _find_notebook(notebook)
     if nb.current_open_custom_block().get('id'):
         nb.close_current_open_custom_block()
-    backup = None
-    if path:
-        path = os.path.abspath(path)
-        if not os.path.isfile(path):
-            raise FileNotFoundError(path)
-        work = os.path.join(tempfile.gettempdir(), 'ntop-blocks')
-        os.makedirs(work, exist_ok=True)
-        stem = os.path.splitext(os.path.basename(path))[0]
-        backup = os.path.join(work, 'backup-before-%s-%s.ntop' % (stem, time.strftime('%Y%m%d-%H%M%S')))
-        nb.save_notebook_as(backup)          # re-points the open notebook at the copy
-        nb.open_notebook(path)
-    try:
-        s = _collect(nb)
-    finally:
-        if backup and restore:
-            nb.open_notebook(backup)
+    s = _collect(nb)
     if title is None:                        # the API can't tell us the open notebook's name
-        name = path or md
-        title = os.path.splitext(os.path.basename(name))[0] if name else 'Open notebook'
+        title = os.path.splitext(os.path.basename(md))[0] if md else 'Open notebook'
     body, unused = _format(s, width)
     if md:
         _write_md(md, title, body, unused)
-    if backup:
-        s['backup'] = backup
     if quiet:
         return s
     print(_console(title, body, unused))
     if md:
         print('Saved to ' + os.path.abspath(md))
-    if backup:
-        print('Notebook that was open before: saved a copy to %s (%s).' % (
-            backup, 'reopened from there, so Save writes to that copy - use Save As to put it back'
-            if restore else 'not reopened; open that file to get it back'))

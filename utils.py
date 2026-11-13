@@ -2,9 +2,8 @@
 editing it, run utils.reload() (no need to re-import).
 
     >>> from utils import summary
-    >>> summary()                                    # the open notebook
-    >>> summary(r"C:\\path\\part.ntop", restore=True) # a file, then reopen what was open
-    >>> summary(md=r"C:\\temp\\blocks.md")            # also save as Markdown
+    >>> summary()                           # the open notebook
+    >>> summary(md=r"C:\\temp\\blocks.md")   # also save as Markdown
 """
 import importlib as _il
 
