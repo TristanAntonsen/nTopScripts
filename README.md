@@ -1,8 +1,10 @@
 # nTopScripts
 
-Helpers for nTop's Python Console. This folder is on the console's import path.
 
-## Run
+Helpers for nTop's Python Console. This folder is on the console's import path.
+(Mostly written by Claude, tweaked by hand)
+
+## Run (Example)
 
 1. **View → Python Console** (Ctrl+`)
 2. `import utils`
@@ -11,13 +13,11 @@ Helpers for nTop's Python Console. This folder is on the console's import path.
    - a histogram of block counts by type
    - top-level blocks not used by any other block, with their section
 
-## Options
+## Summary
 
 ```python
 utils.summary(r"C:\path\part.ntop", restore=True)  # summarize a file, then reopen the current notebook
 utils.summary(md=r"C:\temp\blocks.md")             # also save as Markdown
 ```
-
-Opening a file by path replaces the open notebook; a backup is saved to `%TEMP%\ntop-blocks` first.
 
 After editing the code, run `utils.reload()`. No need to re-import.
