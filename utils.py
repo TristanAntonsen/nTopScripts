@@ -1,9 +1,9 @@
 """Helpers for the nTop Python Console. Loads the repo copies below, so edits there
-take effect after ntop_utils.reload() - nothing to copy here.
+take effect after utils.reload() - nothing to copy here.
 
-    >>> from ntop_utils import block_summary
-    >>> block_summary()                                   # the open notebook
-    >>> block_summary(r"C:\\path\\part.ntop", restore=True) # a file, then reopen what was open
+    >>> from utils import summary
+    >>> summary()                                   # the open notebook
+    >>> summary(r"C:\\path\\part.ntop", restore=True) # a file, then reopen what was open
 """
 import importlib.util as _ilu
 
@@ -25,12 +25,12 @@ _bs = None
 def reload():
     """Re-read the repo copies after editing them (no need to re-import afterwards)."""
     global _bs
-    _bs = _load("block_summary")
+    _bs = _load("summary")
 
 
-def block_summary(*args, **kwargs):
+def summary(*args, **kwargs):
     return _bs.block_summary(*args, **kwargs)
 
 
 reload()
-block_summary.__doc__ = _bs.__doc__
+summary.__doc__ = _bs.__doc__
