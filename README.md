@@ -1,7 +1,8 @@
 # nTopScripts
 
 
-Helpers for nTop's Python Console. This folder is on the console's import path.
+Helpers for nTop's Python Console. The folder `C:\Users\<user>\Documents\nTopScripts\` is on the console's import path.
+
 (Mostly written by Claude, tweaked by hand)
 
 ## Run (Example)
